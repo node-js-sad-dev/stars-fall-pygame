@@ -13,9 +13,10 @@ class Star(Sprite):
         self.screen: pygame.Surface = game.screen
         self.settings = self.game.settings
 
-        self.radius = randrange(2, 4)
+        self.radius = randrange(1, 3)
 
-        self.color = (randrange(1, 255), randrange(1, 255), randrange(1, 255))
+        # self.color = (randrange(1, 255), randrange(1, 255), randrange(1, 255))
+        self.color = (240, 248, 255)
         self.center_x = randrange(self.radius // 2, self.settings.program_w - self.radius // 2)
         self.center_y = randrange(self.radius // 2, self.settings.program_h - self.radius // 2)
 
@@ -25,8 +26,10 @@ class Star(Sprite):
 
         self.move_direction = choices(directions)[0]
 
+        self.star_falling_speed = randrange(1, 5)
+
     def update(self):
-        self.center_y += 1
+        self.center_y += float(self.star_falling_speed)
         if self.x_iterator % 4 == 0:
             if self.move_direction == 'left':
                 self.center_x -= self.angle

@@ -8,7 +8,7 @@ from star import Star
 
 
 class Game:
-    def __init__(self) -> None:
+    def __init__(self):
         pygame.init()
 
         self.settings: Settings = Settings()
@@ -27,7 +27,7 @@ class Game:
         self.time_from_last_action = 0
 
     def _create_stars(self):
-        stars_count = randrange(80, 99)
+        stars_count = randrange(150, 200)
 
         for star in range(stars_count):
             self.stars.append(Star(self))
@@ -66,14 +66,14 @@ class Game:
 
         # print(self.falling_stars)
 
-        if len(self.stars) < 50:
+        if len(self.stars) < 150:
             self.stars.append(Star(self))
 
         pygame.display.flip()
 
     def check_events(self):
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE):
                 sys.exit()
 
 
