@@ -1,11 +1,13 @@
 import pygame
 from pygame.sprite import Sprite
-from random import randrange
+from random import randrange, choices
 
 
 class Star(Sprite):
     def __init__(self, game):
         super().__init__()
+
+        directions = ['left', 'right']
 
         self.game = game
         self.screen: pygame.Surface = game.screen
@@ -19,10 +21,17 @@ class Star(Sprite):
 
         self.x_iterator = 0
 
+        self.angle = randrange(1, 5)
+
+        self.move_direction = choices(directions)[0]
+
     def update(self):
         self.center_y += 1
         if self.x_iterator % 4 == 0:
-            self.center_x += 1
+            if self.move_direction == 'left':
+                self.center_x -= self.angle
+            else:
+                self.center_x += self.angle
         self.x_iterator += 1
 
     def draw_star(self):

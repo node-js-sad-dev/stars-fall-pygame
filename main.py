@@ -20,7 +20,11 @@ class Game:
 
         self.falling_stars = []
 
+        self.clock = pygame.time.Clock()
+
         self._create_stars()
+
+        self.time_from_last_action = 0
 
     def _create_stars(self):
         stars_count = randrange(80, 99)
@@ -31,7 +35,22 @@ class Game:
     def run_game(self):
         while True:
             self.check_events()
+            self.clock_func()
             self.update_screen()
+
+    def clock_func(self):
+        dt = self.clock.tick()
+
+        self.time_from_last_action += dt
+
+        if self.time_from_last_action > 200:
+            self.star_fall()
+            self.time_from_last_action = 0
+
+    def star_fall(self):
+        rand_index = randrange(0, len(self.stars))
+        self.falling_stars.append(self.stars[rand_index])
+        self.stars.pop(rand_index)
 
     def update_screen(self):
         self.screen.fill((0, 0, 0))
@@ -45,7 +64,10 @@ class Game:
             if (star.center_y + star.radius / 2) >= self.settings.program_h:
                 self.falling_stars.remove(star)
 
-        print(self.falling_stars)
+        # print(self.falling_stars)
+
+        if len(self.stars) < 50:
+            self.stars.append(Star(self))
 
         pygame.display.flip()
 
@@ -53,10 +75,6 @@ class Game:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and len(self.stars) > 0:
-                rand_index = randrange(0, len(self.stars))
-                self.falling_stars.append(self.stars[rand_index])
-                self.stars.pop(rand_index)
 
 
 if __name__ == '__main__':
