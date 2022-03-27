@@ -39,7 +39,7 @@ class Game:
             self.update_screen()
 
     def clock_func(self):
-        dt = self.clock.tick()
+        dt = self.clock.tick(200)
 
         self.time_from_last_action += dt
 
